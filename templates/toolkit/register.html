@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}নতুন অ্যাকাউন্ট / Register — The First Hour{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-12 sm:py-16">
+    <div class="bg-surface rounded-3xl border border-brand/25 p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="space-y-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-brand text-brand-gold text-xs font-bold uppercase">
+                <i data-lucide="user-check" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                <span class="lang-bn">গোপনীয় অ্যাকাউন্ট</span>
+                <span class="lang-sep">/</span>
+                <span class="lang-en font-en">Confidential Account</span>
+            </span>
+            <h1 class="text-2xl font-bold text-ink">
+                <span class="lang-bn">নিরাপদ অ্যাকাউন্ট তৈরি করুন</span>
+                <span class="block lang-en font-title text-lg font-bold text-brand">Create your safe account</span>
+            </h1>
+            <p class="text-xs text-muted leading-relaxed">
+                <span class="lang-bn">আপনার আসল নাম বা ইমেইল দেওয়ার প্রয়োজন নেই। যেকোনো একটি ছদ্মনাম (Username) ও পাসওয়ার্ড ব্যবহার করুন।</span>
+                <span class="lang-en font-en">No real name or email required. Choose any pseudonym (username) and a strong password.</span>
+            </p>
+        </div>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="p-3.5 rounded-xl bg-brand-soft border border-brand text-ink text-xs space-y-1" role="alert">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div>
+                <label for="id_username" class="block text-sm font-bold text-ink mb-1.5">
+                    <span class="lang-bn">ইউজারনেম (ছদ্মনাম)</span>
+                    <span class="lang-en font-en">Username (Pseudonym)</span>
+                </label>
+                <input type="text" name="username" id="id_username" required autofocus class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm text-ink focus-ring">
+            </div>
+
+            <div>
+                <label for="id_password1" class="block text-sm font-bold text-ink mb-1.5">
+                    <span class="lang-bn">পাসওয়ার্ড (অন্তত ৮ অক্ষর)</span>
+                    <span class="lang-en font-en">Password (At least 8 characters)</span>
+                </label>
+                <input type="password" name="password1" id="id_password1" required class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm text-ink focus-ring">
+            </div>
+
+            <div>
+                <label for="id_password2" class="block text-sm font-bold text-ink mb-1.5">
+                    <span class="lang-bn">পাসওয়ার্ড নিশ্চিত করুন</span>
+                    <span class="lang-en font-en">Confirm Password</span>
+                </label>
+                <input type="password" name="password2" id="id_password2" required class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm text-ink focus-ring">
+            </div>
+
+            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold font-bold text-sm transition-colors focus-ring">
+                <i data-lucide="user-plus" class="w-4 h-4" aria-hidden="true"></i>
+                <span class="lang-bn">অ্যাকাউন্ট তৈরি করুন</span>
+                <span class="lang-sep">/</span>
+                <span class="lang-en font-en">Create Account</span>
+            </button>
+        </form>
+
+        <div class="pt-4 border-t border-brand/15 text-center text-sm">
+            <span class="lang-bn text-muted">ইতিমধ্যে অ্যাকাউন্ট আছে?</span>
+            <span class="lang-en font-en text-muted">Already have an account?</span>
+            <a href="{% url 'toolkit:login' %}" class="font-bold text-brand hover:underline ml-1 focus-ring rounded">
+                <span class="lang-bn">লগইন করুন</span>
+                <span class="lang-en font-en">Sign in</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,461 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="bg-brand text-canvas pt-10 pb-12 sm:pt-14 sm:pb-16 border-b border-charcoal-border" aria-labelledby="hero-heading">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl space-y-5">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-charcoal-card border border-brand-gold/30 text-brand-gold text-xs sm:text-sm font-semibold">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-brand-gold" aria-hidden="true"></i>
+                <span class="lang-bn">প্রথম ঘণ্টার জরুরি পদক্ষেপ</span>
+                <span class="lang-sep">•</span>
+                <span class="lang-en font-en">First Hour Action Guide</span>
+            </div>
+
+            <h1 id="hero-heading" class="space-y-3">
+                <span class="block lang-bn text-2xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-canvas">
+                    কী ঘটছে, বুঝে নিন। জানুন কোথায় যেতে হবে।
+                </span>
+                <span class="block lang-en font-title text-xl sm:text-2xl lg:text-3xl font-bold text-brand-gold leading-snug tracking-wide">
+                    Recognize what's happening. Know exactly where to go.
+                </span>
+            </h1>
+
+            <div class="space-y-1.5 pt-1 text-canvas/90">
+                <p class="lang-bn text-base sm:text-lg leading-relaxed">
+                    অনলাইনে হয়রানি বা হুমকির মুখোমুখি হলে, নিচে থেকে আপনার পরিস্থিতির কাছাকাছি বিষয়টি বেছে নিন।
+                </p>
+                <p class="lang-en font-en text-sm sm:text-base text-brand-gold/85 leading-relaxed">
+                    If you're facing online harassment or threats, choose the situation closest to yours below.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-8 p-4 sm:p-5 rounded-2xl bg-charcoal-card border border-brand-gold/40 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4" role="status" aria-live="polite">
+            <div class="flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-brand-gold/15 flex items-center justify-center shrink-0 text-brand-gold">
+                    <i data-lucide="heart-handshake" class="w-5 h-5" aria-hidden="true"></i>
+                </div>
+                <p class="text-sm sm:text-base font-semibold text-canvas leading-snug">
+                    <span class="lang-bn">আপনি একা নন। এটি আপনার দোষ নয়।</span>
+                    <span class="lang-sep mx-1.5 text-brand-gold">—</span>
+                    <span class="lang-en font-en text-brand-gold">You are not alone. This is not your fault.</span>
+                </p>
+            </div>
+            <a href="#userActionVault" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-gold text-brand-dark font-bold text-xs sm:text-sm hover:bg-canvas transition-colors focus-ring shrink-0">
+                <i data-lucide="shield-plus" class="w-4 h-4" aria-hidden="true"></i>
+                <span class="lang-bn">প্রমাণ লগ সংরক্ষণ করুন</span>
+                <span class="lang-en font-en">Log Evidence Safely</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-14">
+
+    <section aria-labelledby="step-1-heading" class="space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-brand/20">
+            <div class="flex items-start sm:items-center gap-3.5">
+                <span class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-brand text-brand-gold font-bold text-xs sm:text-sm tracking-wider uppercase shrink-0">
+                    <span class="lang-bn">ধাপ ১</span>
+                    <span class="lang-sep mx-1">/</span>
+                    <span class="lang-en font-title">STEP 1</span>
+                </span>
+                <h2 id="step-1-heading" class="text-xl sm:text-2xl font-bold text-ink">
+                    <span class="lang-bn">কী ঘটছে বেছে নিন</span>
+                    <span class="lang-sep mx-1.5 text-muted font-normal">•</span>
+                    <span class="lang-en font-title text-lg sm:text-xl font-bold text-brand">Select what's happening</span>
+                </h2>
+            </div>
+            <p class="text-xs sm:text-sm text-muted font-medium">
+                <span class="lang-bn">বিস্তারিত তাৎক্ষণিক পদক্ষেপ দেখতে যেকোনো কার্ডে ক্লিক করুন</span>
+                <span class="lang-en font-en">Click any card for immediate first-hour steps</span>
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 items-start gap-4" role="list">
+            {% for situation in situations %}
+            <article class="situation-card bg-surface rounded-2xl border border-brand/20 shadow-sm hover:border-brand transition-all overflow-hidden" role="listitem">
+                <h3>
+                    <button type="button" class="situation-trigger w-full text-left p-5 flex items-center justify-between gap-4 focus-ring" aria-expanded="false" aria-controls="situation-panel-{{ situation.id }}" id="situation-btn-{{ situation.id }}">
+                        <span class="flex items-start gap-3.5">
+                            <span class="w-11 h-11 rounded-xl bg-brand text-brand-gold flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="{{ situation.iconName }}" class="w-5 h-5" aria-hidden="true"></i>
+                            </span>
+                            <span>
+                                <span class="block lang-bn text-lg font-bold text-ink">{{ situation.titleBn }}</span>
+                                <span class="block lang-en font-en text-sm font-semibold text-muted">{{ situation.titleEn }}</span>
+                            </span>
+                        </span>
+                        <span class="trigger-icon w-9 h-9 rounded-full bg-brand-soft text-brand flex items-center justify-center shrink-0 transition-transform duration-200" aria-hidden="true">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                        </span>
+                    </button>
+                </h3>
+                <div id="situation-panel-{{ situation.id }}" role="region" aria-labelledby="situation-btn-{{ situation.id }}" class="situation-panel hidden px-5 pb-5 pt-2 border-t border-brand/15 bg-brand-soft/40 space-y-3 text-sm">
+                    <p class="lang-bn text-ink leading-relaxed">
+                        {{ situation.immediateActionBn }}
+                    </p>
+                    <p class="lang-en font-en text-muted leading-relaxed">
+                        {{ situation.immediateActionEn }}
+                    </p>
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <a href="{% url 'toolkit:situationDetail' situation.slug %}" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-gold bg-brand hover:bg-brand-dark focus-ring rounded-lg px-3 py-1.5">
+                            <i data-lucide="book-open-check" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                            <span class="lang-bn">বিস্তারিত গাইড দেখুন</span>
+                            <span class="lang-en font-en">Full Action Guide</span>
+                        </a>
+                        <a href="#userActionVault" data-select-situation="{{ situation.id }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand hover:bg-brand-soft focus-ring rounded-lg px-3 py-1.5 border border-brand/30">
+                            <i data-lucide="file-plus-2" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                            <span class="lang-bn">প্রমাণ লগ করুন</span>
+                            <span class="lang-en font-en">Log Evidence</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="step-2-section" aria-labelledby="step-2-heading" class="space-y-6 scroll-mt-24">
+        <div class="flex items-start sm:items-center gap-3.5 pb-3 border-b border-brand/20">
+            <span class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-brand text-brand-gold font-bold text-xs sm:text-sm tracking-wider uppercase shrink-0">
+                <span class="lang-bn">ধাপ ২</span>
+                <span class="lang-sep mx-1">/</span>
+                <span class="lang-en font-title">STEP 2</span>
+            </span>
+            <h2 id="step-2-heading" class="text-xl sm:text-2xl font-bold text-ink">
+                <span class="lang-bn">প্রমাণ সংরক্ষণ করুন</span>
+                <span class="lang-sep mx-1.5 text-muted font-normal">•</span>
+                <span class="lang-en font-title text-lg sm:text-xl font-bold text-brand">Preserve the evidence</span>
+            </h2>
+        </div>
+
+        <div class="p-4 sm:p-5 rounded-2xl bg-brand-soft border-l-4 border-brand flex items-start gap-3.5">
+            <i data-lucide="alert-triangle" class="w-6 h-6 text-brand shrink-0 mt-0.5" aria-hidden="true"></i>
+            <div class="space-y-1">
+                <p class="lang-bn text-base sm:text-lg font-bold text-ink">
+                    রিপোর্ট করার আগে এই চারটি কাজ করুন — ডিজিটাল প্রমাণ দ্রুত হারিয়ে যেতে পারে।
+                </p>
+                <p class="lang-en font-en text-sm sm:text-base font-medium text-muted">
+                    Do these four things before reporting — digital evidence can disappear fast.
+                </p>
+            </div>
+        </div>
+
+        <ol class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for step in evidenceSteps %}
+            <li class="bg-surface p-5 rounded-2xl border border-brand/20 shadow-sm flex items-start gap-4">
+                <span class="w-11 h-11 rounded-xl bg-brand text-brand-gold font-bold text-lg flex items-center justify-center shrink-0" aria-hidden="true">
+                    <span class="step-num-bn">{{ step.stepLabelBn }}</span>
+                    <span class="step-num-en font-en">{{ step.stepNumber }}</span>
+                </span>
+                <div class="space-y-1.5">
+                    <p class="lang-bn text-base sm:text-lg font-bold text-ink leading-snug">
+                        {{ step.instructionBn }}
+                    </p>
+                    <p class="lang-en font-en text-sm text-muted leading-relaxed">
+                        {{ step.instructionEn }}
+                    </p>
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section id="userActionVault" aria-labelledby="vault-heading" class="bg-surface rounded-3xl border-2 border-brand/30 p-6 sm:p-8 shadow-sm scroll-mt-24 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand/15 pb-4">
+            <div class="space-y-1">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-brand text-brand-gold text-xs font-bold uppercase">
+                    <i data-lucide="lock" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                    <span class="lang-bn">ব্যক্তিগত নিরাপত্তা লকার</span>
+                    <span class="lang-sep">/</span>
+                    <span class="lang-en font-en">Personal Evidence Vault</span>
+                </span>
+                <h2 id="vault-heading" class="text-xl sm:text-2xl font-bold text-ink pt-1">
+                    <span class="lang-bn">প্রমাণ লগ করুন এবং পিয়ার-সাপোর্ট নিন</span>
+                    <span class="lang-sep mx-1.5 text-muted font-normal">•</span>
+                    <span class="lang-en font-title text-lg sm:text-xl font-bold text-brand">Save Evidence &amp; Request Support</span>
+                </h2>
+            </div>
+            {% if user.is_authenticated %}
+            <a href="{% url 'toolkit:dashboard' %}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand text-brand-gold text-xs sm:text-sm font-bold hover:bg-brand-dark transition-colors focus-ring shrink-0">
+                <i data-lucide="folder-kanban" class="w-4 h-4" aria-hidden="true"></i>
+                <span class="lang-bn">সংরক্ষিত রেকর্ড দেখুন ({{ userReportsCount }})</span>
+                <span class="lang-en font-en">Saved Logs ({{ userReportsCount }})</span>
+            </a>
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'toolkit:saveIncident' %}" class="space-y-5">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label for="situationId" class="block text-sm font-bold text-ink mb-1.5">
+                        <span class="lang-bn">কোন ধরনের ঘটনা ঘটছে?</span>
+                        <span class="lang-en font-en">What type of incident is happening?</span>
+                    </label>
+                    <select id="situationId" name="situationId" class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm font-medium text-ink focus-ring">
+                        {% for situation in situations %}
+                        <option value="{{ situation.id }}">{{ situation.titleBn }} — {{ situation.titleEn }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="offenderUsername" class="block text-sm font-bold text-ink mb-1.5">
+                        <span class="lang-bn">হুমকিদাতার ইউজারনেম / আইডি নাম</span>
+                        <span class="lang-en font-en">Offender Username / Profile Name</span>
+                    </label>
+                    <input type="text" id="offenderUsername" name="offenderUsername" placeholder="@username" class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm text-ink focus-ring">
+                </div>
+            </div>
+
+            <div>
+                <label for="offenderProfileUrl" class="block text-sm font-bold text-ink mb-1.5">
+                    <span class="lang-bn">প্রোফাইল লিংক বা পোস্টের ইউআরএল (URL)</span>
+                    <span class="lang-en font-en">Offender Profile Link or Post URL</span>
+                </label>
+                <input type="url" id="offenderProfileUrl" name="offenderProfileUrl" placeholder="https://..." class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm font-mono text-ink focus-ring">
+            </div>
+
+            <fieldset>
+                <legend class="block text-sm font-bold text-ink mb-2">
+                    <span class="lang-bn">ধাপ ২ অনুযায়ী কোন কোন প্রমাণ সংরক্ষণ করেছেন টিক দিন:</span>
+                    <span class="lang-en font-en">Check the evidence steps you have completed:</span>
+                </legend>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {% for step in evidenceSteps %}
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-brand/20 bg-canvas cursor-pointer hover:border-brand">
+                        <input type="checkbox" name="evidenceSteps" value="{{ step.id }}" class="mt-1 h-4 w-4 rounded border-brand/40 text-brand focus:ring-brand">
+                        <span class="text-xs sm:text-sm">
+                            <span class="block lang-bn font-semibold text-ink">{{ step.instructionBn }}</span>
+                            <span class="block lang-en font-en text-muted">{{ step.instructionEn }}</span>
+                        </span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <div>
+                <label for="incidentDetails" class="block text-sm font-bold text-ink mb-1.5">
+                    <span class="lang-bn">ঘটনার সংক্ষিপ্ত বিবরণ (তারিখ ও সময়সহ লিখে রাখুন) *</span>
+                    <span class="lang-en font-en">Incident Summary (Include dates, times, and key details) *</span>
+                </label>
+                <textarea id="incidentDetails" name="incidentDetails" rows="3" required class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm text-ink focus-ring" placeholder="কী ঘটেছে তা এখানে নোট করে রাখুন... / Write down what happened..."></textarea>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-brand-soft/60 border border-brand/25 space-y-3">
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" name="requestPeerSupport" id="requestPeerSupport" class="mt-1 h-4 w-4 rounded border-brand/40 text-brand focus:ring-brand">
+                    <span class="text-sm">
+                        <span class="block lang-bn font-bold text-ink">আমি "দ্য ফার্স্ট আওয়ার পিয়ার-সাপোর্ট" টিমের সহায়তা চাই</span>
+                        <span class="block lang-en font-en text-xs text-muted">I want to request assistance from The First Hour Peer-Support team</span>
+                    </span>
+                </label>
+                <div>
+                    <label for="contactPreference" class="block text-xs font-bold text-ink mb-1">
+                        <span class="lang-bn">আপনার সাথে যোগাযোগের নিরাপদ মাধ্যম (ফোন বা ইমেইল - ঐচ্ছিক)</span>
+                        <span class="lang-en font-en">Safe way to reach you (Phone or Email - Optional)</span>
+                    </label>
+                    <input type="text" id="contactPreference" name="contactPreference" class="w-full rounded-xl border border-brand/30 bg-surface px-3.5 py-2 text-sm text-ink focus-ring">
+                </div>
+            </div>
+
+            <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold font-bold text-sm transition-colors focus-ring">
+                <i data-lucide="save" class="w-4 h-4" aria-hidden="true"></i>
+                <span class="lang-bn">নিরাপদে সংরক্ষণ করুন</span>
+                <span class="lang-sep">/</span>
+                <span class="lang-en font-en">Save to My Vault</span>
+            </button>
+        </form>
+        {% else %}
+        <div class="p-6 rounded-2xl bg-canvas border border-brand/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div class="space-y-2 max-w-xl">
+                <h3 class="text-base sm:text-lg font-bold text-ink">
+                    <span class="lang-bn">প্রমাণের ইউআরএল (URL), স্ক্রিনশট নোট ও পিয়ার-সাপোর্ট রিকোয়েস্ট সংরক্ষণ করতে লগইন করুন</span>
+                    <span class="block lang-en font-en text-sm font-semibold text-muted mt-0.5">
+                        Log in or create a confidential account to save evidence URLs, notes, and request peer support.
+                    </span>
+                </h3>
+                <p class="text-xs sm:text-sm text-muted">
+                    <span class="lang-bn">আপনি চাইলে আপনার আসল নামের বদলে যেকোনো ছদ্মনাম (Username) দিয়ে অ্যাকাউন্ট খুলতে পারেন।</span>
+                    <span class="lang-en font-en">You can register using any pseudonym (username) without sharing your real name.</span>
+                </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 shrink-0">
+                <a href="{% url 'toolkit:login' %}" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-soft hover:bg-brand/20 text-brand text-sm font-bold transition-colors focus-ring border border-brand/30">
+                    <i data-lucide="log-in" class="w-4 h-4" aria-hidden="true"></i>
+                    <span class="lang-bn">লগইন করুন</span>
+                    <span class="lang-en font-en">Login</span>
+                </a>
+                <a href="{% url 'toolkit:register' %}" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold text-sm font-bold transition-colors focus-ring">
+                    <i data-lucide="user-plus" class="w-4 h-4" aria-hidden="true"></i>
+                    <span class="lang-bn">নতুন অ্যাকাউন্ট খুলুন</span>
+                    <span class="lang-en font-en">Create Safe Account</span>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+
+    <section id="step-3-section" aria-labelledby="step-3-heading" class="space-y-6 scroll-mt-24">
+        <div class="flex items-start sm:items-center gap-3.5 pb-3 border-b border-brand/20">
+            <span class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-brand text-brand-gold font-bold text-xs sm:text-sm tracking-wider uppercase shrink-0">
+                <span class="lang-bn">ধাপ ৩</span>
+                <span class="lang-sep mx-1">/</span>
+                <span class="lang-en font-title">STEP 3</span>
+            </span>
+            <h2 id="step-3-heading" class="text-xl sm:text-2xl font-bold text-ink">
+                <span class="lang-bn">কোথায় জানাবেন</span>
+                <span class="lang-sep mx-1.5 text-muted font-normal">•</span>
+                <span class="lang-en font-title text-lg sm:text-xl font-bold text-brand">Where to report</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {% for channel in supportChannels %}
+                {% if channel.channelType == 'emergency' %}
+                <div class="bg-surface rounded-2xl border-2 border-brand p-6 shadow-sm flex flex-col justify-between gap-5">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand text-brand-gold text-xs font-bold uppercase">
+                                <i data-lucide="{{ channel.iconName }}" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                                <span class="lang-bn">{{ channel.badgeBn }}</span>
+                                <span class="lang-sep">/</span>
+                                <span class="lang-en font-en">{{ channel.badgeEn }}</span>
+                            </span>
+                            <h3 class="text-lg font-bold text-ink pt-1">
+                                <span class="lang-bn">{{ channel.titleBn }}</span>
+                                <span class="lang-sep mx-1">•</span>
+                                <span class="lang-en font-en">{{ channel.titleEn }}</span>
+                            </h3>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-2xl sm:text-3xl font-extrabold text-brand tracking-tight">{{ channel.phoneDisplayBn }}</span>
+                            <span class="block font-mono text-sm font-bold text-muted">{{ channel.phoneDisplayEn }}</span>
+                        </div>
+                    </div>
+                    <a href="tel:{{ channel.phoneDial }}" class="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold font-bold text-sm transition-colors focus-ring">
+                        <i data-lucide="phone" class="w-4 h-4" aria-hidden="true"></i>
+                        <span class="lang-bn">{{ channel.callBtnBn }}</span>
+                        <span class="lang-sep">/</span>
+                        <span class="lang-en font-en">{{ channel.callBtnEn }}</span>
+                    </a>
+                </div>
+
+                {% elif channel.channelType == 'helpline' %}
+                <div class="bg-surface rounded-2xl border-2 border-brand/40 p-6 shadow-sm flex flex-col justify-between gap-5">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-soft text-brand text-xs font-bold uppercase">
+                                <i data-lucide="{{ channel.iconName }}" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                                <span class="lang-bn">{{ channel.badgeBn }}</span>
+                                <span class="lang-sep">/</span>
+                                <span class="lang-en font-en">{{ channel.badgeEn }}</span>
+                            </span>
+                            <h3 class="text-lg font-bold text-ink pt-1">
+                                <span class="lang-bn">{{ channel.titleBn }}</span>
+                                <span class="lang-sep mx-1">•</span>
+                                <span class="lang-en font-en">{{ channel.titleEn }}</span>
+                            </h3>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-2xl sm:text-3xl font-extrabold text-brand tracking-tight">{{ channel.phoneDisplayBn }}</span>
+                            <span class="block font-mono text-sm font-bold text-muted">{{ channel.phoneDisplayEn }}</span>
+                        </div>
+                    </div>
+                    <a href="tel:{{ channel.phoneDial }}" class="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold font-bold text-sm transition-colors focus-ring">
+                        <i data-lucide="phone" class="w-4 h-4" aria-hidden="true"></i>
+                        <span class="lang-bn">{{ channel.callBtnBn }}</span>
+                        <span class="lang-sep">/</span>
+                        <span class="lang-en font-en">{{ channel.callBtnEn }}</span>
+                    </a>
+                </div>
+
+                {% elif channel.channelType == 'cyberPolice' %}
+                <div class="bg-surface rounded-2xl border border-brand/25 p-6 shadow-sm md:col-span-2 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                    <div class="space-y-2">
+                        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-brand-soft text-brand text-xs font-bold">
+                            <i data-lucide="{{ channel.iconName }}" class="w-4 h-4 text-brand" aria-hidden="true"></i>
+                            <span>{{ channel.badgeEn }}</span>
+                        </div>
+                        <h3 class="text-lg sm:text-xl font-bold text-ink">
+                            <span class="lang-bn">{{ channel.titleBn }}</span>
+                            <span class="block lang-en font-en text-sm sm:text-base font-semibold text-muted mt-0.5">
+                                {{ channel.titleEn }}
+                            </span>
+                        </h3>
+                        <p class="font-mono text-lg sm:text-xl font-bold text-brand tracking-wide">
+                            {{ channel.phoneDisplayEn }}
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <a href="tel:{{ channel.phoneDial }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold text-sm font-bold transition-colors focus-ring">
+                            <i data-lucide="phone" class="w-4 h-4" aria-hidden="true"></i>
+                            <span>{{ channel.phoneDisplayEn }}</span>
+                        </a>
+                        {% if channel.email %}
+                        <a href="mailto:{{ channel.email }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-soft hover:bg-brand/20 text-brand text-sm font-bold transition-colors focus-ring">
+                            <i data-lucide="mail" class="w-4 h-4" aria-hidden="true"></i>
+                            <span class="font-en">Email</span>
+                        </a>
+                        {% endif %}
+                        {% if channel.externalUrl %}
+                        <a href="{{ channel.externalUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-soft hover:bg-brand/20 text-brand text-sm font-bold transition-colors focus-ring">
+                            <i data-lucide="external-link" class="w-4 h-4" aria-hidden="true"></i>
+                            <span class="font-en">Facebook</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% elif channel.channelType == 'platform' %}
+                <div class="bg-surface rounded-2xl border border-brand/25 p-6 shadow-sm space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-soft text-brand flex items-center justify-center shrink-0">
+                            <i data-lucide="{{ channel.iconName }}" class="w-5 h-5" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold text-ink">
+                                <span class="lang-bn">{{ channel.titleBn }}</span>
+                                <span class="lang-sep mx-1">•</span>
+                                <span class="lang-en font-en">{{ channel.titleEn }}</span>
+                            </h3>
+                        </div>
+                    </div>
+                    <p class="lang-bn text-sm sm:text-base text-ink leading-relaxed">
+                        {{ channel.descriptionBn }}
+                    </p>
+                    <p class="lang-en font-en text-xs sm:text-sm text-muted leading-relaxed">
+                        {{ channel.descriptionEn }}
+                    </p>
+                </div>
+
+                {% elif channel.channelType == 'peerSupport' %}
+                <div class="bg-surface rounded-2xl border border-dashed border-brand/50 p-6 shadow-sm space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-soft text-brand flex items-center justify-center shrink-0">
+                            <i data-lucide="{{ channel.iconName }}" class="w-5 h-5" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold text-ink">
+                                <span class="lang-bn">{{ channel.titleBn }}</span>
+                                <span class="lang-sep mx-1">•</span>
+                                <span class="lang-en font-en">{{ channel.titleEn }}</span>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-brand-soft/50 border border-brand/20 text-sm font-medium text-muted">
+                        <span class="lang-bn block text-ink font-semibold">{{ channel.descriptionBn }}</span>
+                        <span class="lang-en font-en block text-xs text-muted mt-0.5">{{ channel.descriptionEn }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth" data-lang-mode="both">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The First Hour - অনলাইনে হয়রানি বা হুমকির মুখোমুখি হলে তাৎক্ষণিক করণীয় ও সহায়তার ডিজিটাল নিরাপত্তা টুলকিট।">
+    <title>{% block title %}The First Hour — ডিজিটাল নিরাপত্তা টুলকিট{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23364423'/%3E%3Cpath d='M30 38 A30 30 0 1 0 70 38' fill='none' stroke='%23DCD2A5' stroke-width='11' stroke-linecap='round'/%3E%3Cpath d='M44.5 22 L55.5 11 L55.5 52 A5.5 5.5 0 0 1 44.5 52 Z' fill='%23DCD2A5'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Noto+Serif+Bengali:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        canvas: '#FDF8DB',
+                        surface: '#FFFDF2',
+                        ink: '#232C16',
+                        muted: '#4A5735',
+                        brand: {
+                            DEFAULT: '#364423',
+                            dark: '#263118',
+                            soft: '#EFE8C4',
+                            gold: '#DCD2A5'
+                        },
+                        charcoal: {
+                            DEFAULT: '#364423',
+                            card: '#2B371B',
+                            border: '#4C5E33'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"SutonnyMJ"', '"Noto Serif Bengali"', '"Hind Siliguri"', '"Satoshi"', 'sans-serif'],
+                        en: ['"Satoshi"', 'sans-serif'],
+                        title: ['"Cinzel"', '"Noto Serif Bengali"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="{% static 'js/main.js' %}" defer></script>
+</head>
+<body class="bg-canvas text-ink font-sans antialiased selection:bg-brand selection:text-brand-gold min-h-screen flex flex-col">
+    <a href="#main-content" class="skip-link">মূল বিষয়বস্তুতে যান / Skip to main content</a>
+    <div id="srAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <header class="sticky top-0 z-50 bg-brand text-brand-gold border-b border-charcoal-border shadow-md" role="banner">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+            <a href="{% url 'toolkit:home' %}" class="flex items-center gap-3.5 group focus-ring rounded-lg py-1 pr-2 shrink-0" aria-label="The First Hour হোমপেজ">
+                <img src="{% static 'images/logoTransparent.png' %}" alt="The First Hour Logo" class="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0">
+                <div>
+                    <span class="block font-title font-bold text-base sm:text-xl tracking-widest uppercase text-brand-gold">The First Hour</span>
+                    <span class="block text-xs text-canvas/80 font-medium">
+                        <span class="lang-bn">ডিজিটাল নিরাপত্তা টুলকিট</span>
+                        <span class="lang-sep mx-1">•</span>
+                        <span class="lang-en font-en tracking-wide">SAFETY TOOLKIT</span>
+                    </span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-2 sm:gap-2.5">
+                <nav aria-label="ভাষা নির্বাচন / Language switcher" class="inline-flex items-center bg-charcoal-card p-1 rounded-xl border border-charcoal-border" role="group">
+                    <button type="button" data-set-lang="both" aria-pressed="true" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all focus-ring bg-brand-gold text-brand-dark">
+                        বাংলা + EN
+                    </button>
+                    <button type="button" data-set-lang="bn" aria-pressed="false" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all focus-ring text-brand-gold/80 hover:text-brand-gold">
+                        বাংলা
+                    </button>
+                    <button type="button" data-set-lang="en" aria-pressed="false" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-en font-semibold transition-all focus-ring text-brand-gold/80 hover:text-brand-gold">
+                        EN
+                    </button>
+                </nav>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'toolkit:dashboard' %}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-charcoal-card hover:bg-brand-dark border border-charcoal-border text-brand-gold text-xs sm:text-sm font-semibold transition-colors focus-ring">
+                        <i data-lucide="folder-lock" class="w-4 h-4 text-brand-gold" aria-hidden="true"></i>
+                        <span class="lang-bn">আমার লকার</span>
+                        <span class="lang-en font-en">My Vault</span>
+                    </a>
+                    <form method="post" action="{% url 'toolkit:logout' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-2 rounded-xl bg-charcoal-card hover:bg-brand-dark border border-charcoal-border text-brand-gold/80 hover:text-brand-gold text-xs sm:text-sm font-semibold transition-colors focus-ring" aria-label="লগআউট / Logout">
+                            <i data-lucide="user-minus" class="w-4 h-4" aria-hidden="true"></i>
+                            <span class="hidden md:inline lang-bn">লগআউট</span>
+                            <span class="hidden md:inline lang-en font-en">Logout</span>
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'toolkit:login' %}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-charcoal-card hover:bg-brand-dark border border-charcoal-border text-brand-gold text-xs sm:text-sm font-semibold transition-colors focus-ring">
+                        <i data-lucide="log-in" class="w-4 h-4 text-brand-gold" aria-hidden="true"></i>
+                        <span class="lang-bn">লগইন</span>
+                        <span class="lang-en font-en">Login</span>
+                    </a>
+                {% endif %}
+
+                <button type="button" id="quickExitBtn" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-brand-gold hover:bg-canvas text-brand-dark text-xs sm:text-sm font-bold transition-colors focus-ring" title="জরুরি অবস্থায় দ্রুত পেজ ত্যাগ করুন (Esc দুবার চাপুন)" aria-label="দ্রুত প্রস্থান করুন / Quick Exit">
+                    <i data-lucide="log-out" class="w-4 h-4" aria-hidden="true"></i>
+                    <span class="hidden lg:inline lang-bn">দ্রুত প্রস্থান</span>
+                    <span class="hidden lg:inline lang-en font-en">Quick Exit</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    {% if messages %}
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full" role="status" aria-live="polite">
+        {% for message in messages %}
+        <div class="p-4 rounded-xl bg-brand-soft border border-brand/30 text-ink text-sm font-semibold flex items-center gap-2.5 shadow-sm">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-brand shrink-0" aria-hidden="true"></i>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main id="main-content" class="flex-grow" tabindex="-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-brand text-brand-gold border-t border-charcoal-border mt-16" role="contentinfo">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+            <div class="p-5 rounded-2xl bg-charcoal-card border border-charcoal-border flex items-start gap-4">
+                <div class="p-2.5 rounded-xl bg-brand-gold/15 text-brand-gold shrink-0 mt-0.5">
+                    <i data-lucide="scale" class="w-6 h-6" aria-hidden="true"></i>
+                </div>
+                <div class="space-y-1.5 text-sm leading-relaxed">
+                    <p class="lang-bn text-canvas font-medium">
+                        এই টুলকিট আইনি পরামর্শের বিকল্প নয়। প্রকাশের আগে একজন আইনজীবী বা প্যারালিগাল স্বেচ্ছাসেবক দিয়ে তথ্য যাচাই করে নিন — আইন পরিবর্তনশীল।
+                    </p>
+                    <p class="lang-en font-en text-brand-gold/80">
+                        This toolkit is not a substitute for legal advice. Have a lawyer or paralegal volunteer verify the content before public launch — the law is still evolving.
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 text-xs text-brand-gold/80">
+                <div class="flex items-center gap-3">
+                    <img src="{% static 'images/logoTransparent.png' %}" alt="" class="w-9 h-9 object-contain shrink-0" aria-hidden="true">
+                    <p class="font-title font-bold tracking-wider text-brand-gold uppercase">
+                        The First Hour — Digital Safety Toolkit (2026)
+                    </p>
+                </div>
+                <p>
+                    <span class="lang-bn">সবার জন্য প্রবেশযোগ্য এবং নিরাপদ ডিজিটাল সহায়তা</span>
+                    <span class="lang-sep mx-1">•</span>
+                    <span class="lang-en font-en">Accessible &amp; Confidential Support</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

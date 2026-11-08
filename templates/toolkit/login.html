@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}লগইন / Login — The First Hour{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-12 sm:py-16">
+    <div class="bg-surface rounded-3xl border border-brand/25 p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="space-y-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-brand text-brand-gold text-xs font-bold uppercase">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                <span class="lang-bn">নিরাপদ প্রবেশ</span>
+                <span class="lang-sep">/</span>
+                <span class="lang-en font-en">Secure Access</span>
+            </span>
+            <h1 class="text-2xl font-bold text-ink">
+                <span class="lang-bn">অ্যাকাউন্টে লগইন করুন</span>
+                <span class="block lang-en font-title text-lg font-bold text-brand">Sign in to your vault</span>
+            </h1>
+        </div>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="p-3.5 rounded-xl bg-brand-soft border border-brand text-ink text-xs font-semibold" role="alert">
+                <span class="lang-bn">ইউজারনেম বা পাসওয়ার্ড সঠিক নয়। আবার চেষ্টা করুন।</span>
+                <span class="lang-en font-en">Invalid username or password. Please try again.</span>
+            </div>
+            {% endif %}
+
+            <div>
+                <label for="id_username" class="block text-sm font-bold text-ink mb-1.5">
+                    <span class="lang-bn">ইউজারনেম (ছদ্মনাম)</span>
+                    <span class="lang-en font-en">Username (Pseudonym)</span>
+                </label>
+                <input type="text" name="username" id="id_username" required autofocus class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm text-ink focus-ring">
+            </div>
+
+            <div>
+                <label for="id_password" class="block text-sm font-bold text-ink mb-1.5">
+                    <span class="lang-bn">পাসওয়ার্ড</span>
+                    <span class="lang-en font-en">Password</span>
+                </label>
+                <input type="password" name="password" id="id_password" required class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-3 text-sm text-ink focus-ring">
+            </div>
+
+            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold font-bold text-sm transition-colors focus-ring">
+                <i data-lucide="log-in" class="w-4 h-4" aria-hidden="true"></i>
+                <span class="lang-bn">লগইন করুন</span>
+                <span class="lang-sep">/</span>
+                <span class="lang-en font-en">Login</span>
+            </button>
+        </form>
+
+        <div class="pt-4 border-t border-brand/15 text-center text-sm">
+            <span class="lang-bn text-muted">কোনো অ্যাকাউন্ট নেই?</span>
+            <span class="lang-en font-en text-muted">Need a safe account?</span>
+            <a href="{% url 'toolkit:register' %}" class="font-bold text-brand hover:underline ml-1 focus-ring rounded">
+                <span class="lang-bn">নতুন অ্যাকাউন্ট খুলুন</span>
+                <span class="lang-en font-en">Register here</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

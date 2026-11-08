@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ situation.titleBn }} / {{ situation.titleEn }} — The First Hour{% endblock %}
+
+{% block content %}
+<section class="bg-brand text-canvas pt-8 pb-10 sm:pt-12 sm:pb-14 border-b border-charcoal-border" aria-labelledby="situation-heading">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <a href="{% url 'toolkit:home' %}" class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-brand-gold hover:text-canvas focus-ring rounded-lg py-1.5 px-3 bg-charcoal-card border border-brand-gold/30">
+            <i data-lucide="arrow-left" class="w-4 h-4" aria-hidden="true"></i>
+            <span class="lang-bn">হোমপেজে ফিরে যান</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-en font-en">Back to All Situations</span>
+        </a>
+
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-charcoal-card border border-brand-gold/40 text-brand-gold flex items-center justify-center shrink-0">
+                <i data-lucide="{{ situation.iconName }}" class="w-7 h-7" aria-hidden="true"></i>
+            </div>
+            <div class="space-y-1">
+                <h1 id="situation-heading" class="text-2xl sm:text-4xl font-bold text-canvas">
+                    <span class="lang-bn">{{ situation.titleBn }}</span>
+                    <span class="block lang-en font-title text-lg sm:text-2xl text-brand-gold mt-1">{{ situation.titleEn }}</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-charcoal-card border border-brand-gold/30 space-y-2 max-w-3xl">
+            <p class="lang-bn text-base sm:text-lg text-canvas font-medium leading-relaxed">
+                {{ situation.immediateActionBn }}
+            </p>
+            <p class="lang-en font-en text-sm sm:text-base text-brand-gold/90 leading-relaxed">
+                {{ situation.immediateActionEn }}
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12">
+
+    <section aria-labelledby="first-hour-steps-heading" class="space-y-6">
+        <div class="flex items-center gap-3 pb-3 border-b border-brand/20">
+            <span class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-brand text-brand-gold font-bold text-xs sm:text-sm uppercase">
+                <span class="lang-bn">প্রথম ঘণ্টার করণীয়</span>
+                <span class="lang-sep mx-1">/</span>
+                <span class="lang-en font-title">FIRST HOUR CHECKLIST</span>
+            </span>
+            <h2 id="first-hour-steps-heading" class="text-xl sm:text-2xl font-bold text-ink">
+                <span class="lang-bn">ধাপে ধাপে যা করবেন</span>
+                <span class="lang-sep mx-1.5 text-muted">•</span>
+                <span class="lang-en font-title text-lg sm:text-xl text-brand">Step-by-Step Action Plan</span>
+            </h2>
+        </div>
+
+        <ol class="space-y-4">
+            {% for pair in stepPairs %}
+            <li class="bg-surface p-5 sm:p-6 rounded-2xl border border-brand/25 shadow-sm flex items-start gap-4">
+                <span class="w-10 h-10 rounded-xl bg-brand text-brand-gold font-title font-bold text-base flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
+                    {{ pair.index }}
+                </span>
+                <div class="space-y-1.5">
+                    <p class="lang-bn text-base sm:text-lg font-bold text-ink leading-snug">{{ pair.bn }}</p>
+                    <p class="lang-en font-en text-sm sm:text-base text-muted leading-relaxed">{{ pair.en }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% if situation.whatNotToDoBn or situation.whatNotToDoEn %}
+        <section aria-labelledby="do-not-heading" class="bg-brand-soft/70 rounded-2xl border-l-4 border-brand p-6 space-y-3">
+            <div class="flex items-center gap-2.5">
+                <i data-lucide="shield-ban" class="w-6 h-6 text-brand shrink-0" aria-hidden="true"></i>
+                <h2 id="do-not-heading" class="text-lg font-bold text-ink">
+                    <span class="lang-bn">যা কখনোই করবেন না</span>
+                    <span class="lang-sep mx-1">•</span>
+                    <span class="lang-en font-title text-base text-brand">What NOT To Do</span>
+                </h2>
+            </div>
+            <p class="lang-bn text-sm sm:text-base text-ink font-medium leading-relaxed">{{ situation.whatNotToDoBn }}</p>
+            <p class="lang-en font-en text-xs sm:text-sm text-muted leading-relaxed">{{ situation.whatNotToDoEn }}</p>
+        </section>
+        {% endif %}
+
+        {% if situation.platformGuideBn or situation.platformGuideEn %}
+        <section aria-labelledby="platform-guide-heading" class="bg-surface rounded-2xl border border-brand/25 p-6 space-y-3 shadow-sm">
+            <div class="flex items-center gap-2.5">
+                <i data-lucide="flag" class="w-6 h-6 text-brand shrink-0" aria-hidden="true"></i>
+                <h2 id="platform-guide-heading" class="text-lg font-bold text-ink">
+                    <span class="lang-bn">প্ল্যাটফর্মে রিপোর্ট করার নিয়ম</span>
+                    <span class="lang-sep mx-1">•</span>
+                    <span class="lang-en font-title text-base text-brand">Platform Reporting Guide</span>
+                </h2>
+            </div>
+            <p class="lang-bn text-sm sm:text-base text-ink font-medium leading-relaxed">{{ situation.platformGuideBn }}</p>
+            <p class="lang-en font-en text-xs sm:text-sm text-muted leading-relaxed">{{ situation.platformGuideEn }}</p>
+        </section>
+        {% endif %}
+    </div>
+
+    <section aria-labelledby="detail-vault-heading" class="bg-surface rounded-3xl border-2 border-brand/30 p-6 sm:p-8 shadow-sm space-y-5">
+        <div class="space-y-1">
+            <h2 id="detail-vault-heading" class="text-xl font-bold text-ink">
+                <span class="lang-bn">এই ঘটনার প্রমাণ আপনার ব্যক্তিগত লকারে সংরক্ষণ করুন</span>
+                <span class="block lang-en font-title text-base sm:text-lg text-brand mt-0.5">Log Evidence for This Situation</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-muted">
+                <span class="lang-bn">অপরাধীর প্রোফাইল লিংক, ইউজারনেম ও ঘটনার সময় লিখে রাখলে পরবর্তীতে আইনি পদক্ষেপে সুবিধা হবে।</span>
+                <span class="lang-en font-en">Saving offender URLs, handles, and timestamps helps build a clear record for legal or cyber support.</span>
+            </p>
+        </div>
+
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'toolkit:saveIncident' %}" class="space-y-4">
+            {% csrf_token %}
+            <input type="hidden" name="situationId" value="{{ situation.id }}">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="offenderUsername" class="block text-xs font-bold text-ink mb-1">
+                        <span class="lang-bn">হুমকিদাতার ইউজারনেম</span>
+                        <span class="lang-en font-en">Offender Username</span>
+                    </label>
+                    <input type="text" id="offenderUsername" name="offenderUsername" placeholder="@username" class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-2.5 text-sm text-ink focus-ring">
+                </div>
+                <div>
+                    <label for="offenderProfileUrl" class="block text-xs font-bold text-ink mb-1">
+                        <span class="lang-bn">প্রোফাইল বা পোস্টের লিংক (URL)</span>
+                        <span class="lang-en font-en">Profile or Post URL</span>
+                    </label>
+                    <input type="url" id="offenderProfileUrl" name="offenderProfileUrl" placeholder="https://..." class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-2.5 text-sm font-mono text-ink focus-ring">
+                </div>
+            </div>
+            <div>
+                <label for="incidentDetails" class="block text-xs font-bold text-ink mb-1">
+                    <span class="lang-bn">ঘটনার সংক্ষিপ্ত বিবরণ *</span>
+                    <span class="lang-en font-en">Incident Notes *</span>
+                </label>
+                <textarea id="incidentDetails" name="incidentDetails" rows="3" required class="w-full rounded-xl border border-brand/30 bg-canvas px-4 py-2.5 text-sm text-ink focus-ring"></textarea>
+            </div>
+            <label class="flex items-center gap-2.5 cursor-pointer">
+                <input type="checkbox" name="requestPeerSupport" class="h-4 w-4 rounded border-brand/40 text-brand focus:ring-brand">
+                <span class="text-xs sm:text-sm font-bold text-ink">
+                    <span class="lang-bn">পিয়ার-সাপোর্ট টিমের সহায়তা চাই</span>
+                    <span class="lang-sep">/</span>
+                    <span class="lang-en font-en">Request Peer-Support Assistance</span>
+                </span>
+            </label>
+            <button type="submit" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold font-bold text-sm transition-colors focus-ring">
+                <i data-lucide="save" class="w-4 h-4" aria-hidden="true"></i>
+                <span class="lang-bn">লকারে সংরক্ষণ করুন</span>
+                <span class="lang-en font-en">Save to Vault</span>
+            </button>
+        </form>
+        {% else %}
+        <div class="flex flex-wrap items-center gap-3 pt-1">
+            <a href="{% url 'toolkit:login' %}?next={{ request.path }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold text-sm font-bold transition-colors focus-ring">
+                <i data-lucide="log-in" class="w-4 h-4" aria-hidden="true"></i>
+                <span class="lang-bn">লগইন করে প্রমাণ সেভ করুন</span>
+                <span class="lang-en font-en">Login to Save Evidence</span>
+            </a>
+            <a href="{% url 'toolkit:register' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-soft hover:bg-brand/20 text-brand text-sm font-bold transition-colors focus-ring border border-brand/30">
+                <i data-lucide="user-plus" class="w-4 h-4" aria-hidden="true"></i>
+                <span class="lang-bn">ছদ্মনামে অ্যাকাউন্ট খুলুন</span>
+                <span class="lang-en font-en">Create Pseudonym Account</span>
+            </a>
+        </div>
+        {% endif %}
+    </section>
+
+    <section aria-labelledby="other-situations-heading" class="space-y-4 pt-4 border-t border-brand/20">
+        <h2 id="other-situations-heading" class="text-base sm:text-lg font-bold text-ink">
+            <span class="lang-bn">অন্যান্য পরিস্থিতির গাইডসমূহ</span>
+            <span class="lang-sep mx-1">•</span>
+            <span class="lang-en font-title text-sm text-brand">Other Situation Guides</span>
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {% for item in otherSituations %}
+            <a href="{% url 'toolkit:situationDetail' item.slug %}" class="p-4 rounded-xl bg-surface border border-brand/20 hover:border-brand flex items-center justify-between gap-3 transition-colors focus-ring">
+                <div class="space-y-0.5">
+                    <span class="block lang-bn text-sm font-bold text-ink">{{ item.titleBn }}</span>
+                    <span class="block lang-en font-en text-xs text-muted">{{ item.titleEn }}</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-brand shrink-0" aria-hidden="true"></i>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}আমার নিরাপত্তা লকার / My Vault — The First Hour{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-brand/20">
+        <div class="space-y-1">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-brand text-brand-gold text-xs font-bold uppercase">
+                <i data-lucide="folder-lock" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                <span>{{ user.username }}</span>
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-bold text-ink">
+                <span class="lang-bn">আমার প্রমাণ ও সহায়তা লকার</span>
+                <span class="block lang-en font-title text-lg font-bold text-brand">My Evidence &amp; Support Vault</span>
+            </h1>
+        </div>
+        <a href="{% url 'toolkit:home' %}#userActionVault" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand hover:bg-brand-dark text-brand-gold text-sm font-bold transition-colors focus-ring shrink-0">
+            <i data-lucide="plus-circle" class="w-4 h-4" aria-hidden="true"></i>
+            <span class="lang-bn">নতুন ঘটনা লগ করুন</span>
+            <span class="lang-en font-en">Log New Incident</span>
+        </a>
+    </div>
+
+    {% if reports %}
+    <div class="space-y-4">
+        {% for report in reports %}
+        <article class="bg-surface rounded-2xl border border-brand/25 p-6 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-brand/10 pb-3">
+                <div class="space-y-0.5">
+                    <span class="text-xs font-mono text-muted">{{ report.createdAt|date:"d M Y, h:i A" }}</span>
+                    <h2 class="text-lg font-bold text-ink">
+                        {% if report.situation %}
+                            <span class="lang-bn">{{ report.situation.titleBn }}</span>
+                            <span class="lang-sep mx-1">•</span>
+                            <span class="lang-en font-en">{{ report.situation.titleEn }}</span>
+                        {% else %}
+                            <span class="lang-bn">সাধারণ ঘটনা</span>
+                            <span class="lang-en font-en">General Incident</span>
+                        {% endif %}
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    {% if report.requestPeerSupport %}
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand text-brand-gold text-xs font-bold">
+                        <i data-lucide="users" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                        <span class="lang-bn">পিয়ার-সাপোর্ট চাওয়া হয়েছে</span>
+                        <span class="lang-en font-en">Peer Support Requested</span>
+                    </span>
+                    {% else %}
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-soft text-brand text-xs font-bold">
+                        <i data-lucide="check" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                        <span class="lang-bn">প্রমাণ লগ সংরক্ষিত</span>
+                        <span class="lang-en font-en">Evidence Logged</span>
+                    </span>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'toolkit:deleteIncident' report.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="p-2 rounded-lg text-muted hover:text-brand-dark hover:bg-brand-soft transition-colors focus-ring" aria-label="রেকর্ড মুছে ফেলুন / Delete record">
+                            <i data-lucide="trash-2" class="w-4 h-4" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <p class="text-sm text-ink whitespace-pre-line leading-relaxed">{{ report.incidentDetails }}</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs">
+                {% if report.offenderUsername %}
+                <div class="p-3 rounded-xl bg-canvas border border-brand/20">
+                    <span class="text-muted block">ইউজারনেম / Username:</span>
+                    <span class="font-mono font-bold text-ink">{{ report.offenderUsername }}</span>
+                </div>
+                {% endif %}
+                {% if report.offenderProfileUrl %}
+                <div class="p-3 rounded-xl bg-canvas border border-brand/20 truncate">
+                    <span class="text-muted block">প্রোফাইল লিংক / URL:</span>
+                    <span class="font-mono font-bold text-brand">{{ report.offenderProfileUrl }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if report.completedEvidenceSteps.all %}
+            <div class="pt-2">
+                <span class="block text-xs font-bold text-muted mb-2">সম্পন্ন করা প্রমাণ সংরক্ষণের ধাপসমূহ / Completed Evidence Steps:</span>
+                <div class="flex flex-wrap gap-2">
+                    {% for step in report.completedEvidenceSteps.all %}
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-brand-soft text-ink text-xs font-semibold">
+                        <i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand" aria-hidden="true"></i>
+                        <span class="lang-bn">{{ step.instructionBn }}</span>
+                        <span class="lang-en font-en">{{ step.instructionEn }}</span>
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-surface rounded-3xl border border-brand/25 p-10 text-center space-y-4">
+        <div class="w-12 h-12 rounded-2xl bg-brand text-brand-gold flex items-center justify-center mx-auto">
+            <i data-lucide="folder-open" class="w-6 h-6" aria-hidden="true"></i>
+        </div>
+        <div class="space-y-1">
+            <h2 class="text-lg font-bold text-ink">
+                <span class="lang-bn">এখনো কোনো ঘটনার প্রমাণ লগ করা হয়নি</span>
+                <span class="block lang-en font-en text-sm font-medium text-muted">No incident logs saved yet</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-muted max-w-md mx-auto">
+                <span class="lang-bn">হোমপেজ থেকে যেকোনো পরিস্থিতির প্রোফাইল লিংক, ইউজারনেম ও বিবরণ এখানে নিরাপদে সংরক্ষণ করে রাখতে পারেন।</span>
+                <span class="lang-en font-en">You can safely log offender URLs, usernames, and incident notes from the homepage.</span>
+            </p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
